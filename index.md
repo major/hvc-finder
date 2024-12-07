@@ -1,3 +1,9 @@
+---
+layout: page
+title: "HVC Finder"
+permalink: /
+---
+
 # Recent high volume closes (HVC)
 
 ## 2024-09-11 00:00:00
