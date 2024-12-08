@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HVC Finder</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <nav class="navbar bg-dark border-bottom" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">HVC Finder</a>
+    </div>
+  </nav>
+
+  <div class="row justify-content-center p-5">
+    <div class="col"></div>
+    <div class="col">
+      <p>
+        High volume closes (HVC) are days where the volume is unusually high compared to
+        the moving average of volume. This site lists HVCs that are at least 300% higher
+        than the 20 day volume moving average. These can sometimes be indications of
+        larger investors changing their positions in a stock.
+      </p>
+      <p>
+        The <strong>MA Status</strong> column shows whether the stock's closing price is
+        above or below the moving average for 20, 50, 150, and 200 days. A <span
+          class="badge rounded-pill bg-success">20</span>
+        means that the stock is above its 20 day moving average but a <span class="badge rounded-pill
+        bg-danger">50</span> means a stock is below its 50 day moving average.
+      </p>
+      <div class="alert alert-danger" role="alert">
+        Please note that this site is offered for informational purposes only and should
+        not be taken as a recommendation to buy or sell a particular stock or ETF.
+        Always do your own research before making any investing decisions.
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="container text-center">
+    <div class="row justify-content-center row-cols-2">
+      {% for timestamp in timestamps %}
+      <div class="col gap-3">
+        <table class="table table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th colspan="5">{{ timestamp.strftime("%A %Y-%m-%d") }}</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th class="text-end">Volume</th>
+              <th class="text-end">Vol. 20D MA</th>
+              <th>Relative Volume</th>
+              <th>MA Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for index, row in df[df["timestamp"] == timestamp].iterrows() %}
+            <tr>
+              <td>
+                <strong>
+                  <a class="text-decoration-none" href="https://finviz.com/quote.ashx?t={{ row['ticker'] }}&p=d">
+                    {{ row["ticker"] }}
+                  </a>
+                </strong>
+              </td>
+              <td class="text-end">{{ "{:,.0f}K".format(row["volume"] / 1000) }}</td>
+              <td class="text-end">{{ "{:,.0f}K".format(row["20d_vol_ma"] / 1000) }}</td>
+              <td>{{ "{:,.0f}%".format(row["rel_vol"] * 100) }}</td>
+              <td>
+                {% for ma in ["20", "50", "150", "200"] %}
+                {% if row["close"] > row[ma+"MA"] %}
+                <span class="badge rounded-pill bg-success">{{ ma }}</span>
+                {% else %}
+                <span class="badge rounded-pill bg-danger">{{ ma }}</span>
+                {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
