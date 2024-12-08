@@ -3,7 +3,7 @@ name = "hvc-finder"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "Major Hayden", email = "major@mhtx.net"},
+    {name = "Major Hayden", email = "major@thetanerd.com"},
 ]
 dependencies = ["pandas>=2.2.3", "jinja2>=3.1.4", "boto3>=1.35.76", "pyarrow>=18.1.0", "fastparquet>=2024.11.0"]
 requires-python = "==3.13.*"
