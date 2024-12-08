@@ -14,3 +14,5 @@ if __name__ == "__main__":
     rendered = template.render(timestamps=timestamps, df=df)
     with open("public/index.html", "w") as f:
         f.write(rendered)
+
+    df.to_csv("public/hvc.csv", index=False)
