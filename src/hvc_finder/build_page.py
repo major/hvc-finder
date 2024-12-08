@@ -12,5 +12,5 @@ if __name__ == "__main__":
     timestamps = sorted(df["timestamp"].unique(), reverse=True)[:20]
 
     rendered = template.render(timestamps=timestamps, df=df)
-    with open("public/hvc.html", "w") as f:
+    with open("public/index.html", "w") as f:
         f.write(rendered)
