@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 BUCKET_NAME = "flatfiles"
-DAYS_TO_GET = 250
+DAYS_TO_GET = 365
 
 # Initialize a session using your credentials
 session = boto3.Session(
