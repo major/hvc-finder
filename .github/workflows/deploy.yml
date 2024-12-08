@@ -30,6 +30,9 @@ jobs:
             python-version: 3.13
             cache: true
 
+      - name: Install dependencies
+        run: pdm install
+
       - name: Cache flatfiles
         id: cache-flatfiles
         uses: actions/cache@v4
