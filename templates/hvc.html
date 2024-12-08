@@ -83,7 +83,8 @@
             <tr>
               <td>
                 <strong>
-                  <a class="text-decoration-none" href="https://finviz.com/quote.ashx?t={{ row['ticker'] }}&p=d">
+                  <a class="text-decoration-none"
+                    href="https://www.tradingview.com/chart/fGmaUoZh/?symbol={{ row['ticker'] }}">
                     {{ row["ticker"] }}
                   </a>
                 </strong>
@@ -91,7 +92,7 @@
               <td class="text-end">{{ "{:,.0f}K".format(row["volume"] / 1000) }}</td>
               <td class="text-end">{{ "{:,.0f}K".format(row["20d_vol_ma"] / 1000) }}</td>
               <td>{{ "{:,.0f}%".format(row["rel_vol"] * 100) }}</td>
-              <td>
+              <td class="text-nowrap">
                 {% for ma in ["20", "50", "150", "200"] %}
                 {% if row["close"] > row[ma+"MA"] %}
                 <span class="badge rounded-pill bg-success">{{ ma }}</span>

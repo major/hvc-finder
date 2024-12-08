@@ -23,6 +23,12 @@ def filter_by_price(df):
     return df
 
 
+def filter_five_letter_tickers(df):
+    """Filter the DataFrame by five-letter tickers."""
+    df = df[df["ticker"].str.len() < 5]
+    return df
+
+
 def calculate_ma(df):
     """Calculate the moving average of the DataFrame."""
     for i in [20, 50, 150, 200]:
@@ -53,6 +59,7 @@ def run():
     df = pd.read_parquet("flatfiles.parquet")
     df = filter_columns(df)
     df = filter_by_price(df)
+    df = filter_five_letter_tickers(df)
     df = calculate_ma(df)
     df = calculate_hvcs(df)
     df = df.sort_values(by=["timestamp", "ticker"], ascending=[False, True])
