@@ -38,13 +38,6 @@
         than the 20 day volume moving average. These can sometimes be an indication of
         larger investors changing their positions in a stock.
       </p>
-      <p>
-        The <strong>MA Status</strong> column shows whether the stock's closing price is
-        above or below the moving average for 20, 50, 150, and 200 days. A <span
-          class="badge rounded-pill bg-success">20</span>
-        means that the stock is above its 20 day moving average but a <span class="badge rounded-pill
-        bg-danger">50</span> means a stock is below its 50 day moving average.
-      </p>
       <div class="alert alert-danger" role="alert">
         Please note that this site is offered for informational purposes only and should
         not be taken as a recommendation to buy or sell a particular stock or ETF.
@@ -75,7 +68,7 @@
               <th class="text-end">Volume</th>
               <th class="text-end">Vol. 20D MA</th>
               <th>Relative Volume</th>
-              <th>MA Status</th>
+              <th>Gap up?</th>
             </tr>
           </thead>
           <tbody>
@@ -93,13 +86,11 @@
               <td class="text-end">{{ "{:,.0f}K".format(row["20d_vol_ma"] / 1000) }}</td>
               <td>{{ "{:,.0f}%".format(row["rel_vol"] * 100) }}</td>
               <td class="text-nowrap">
-                {% for ma in ["20", "50", "150", "200"] %}
-                {% if row["close"] > row[ma+"MA"] %}
-                <span class="badge rounded-pill bg-success">{{ ma }}</span>
+                {% if row["gap_percent"] > 0 %}
+                <span class="badge rounded-pill bg-success">+{{ row["gap_percent"] }}%</span>
                 {% else %}
-                <span class="badge rounded-pill bg-danger">{{ ma }}</span>
+                &nbsp;
                 {% endif %}
-                {% endfor %}
               </td>
             </tr>
             {% endfor %}

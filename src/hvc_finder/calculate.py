@@ -11,12 +11,6 @@ MINIMUM_VOLUME = 300000
 MINIMUM_PRICE = 5.00
 
 
-def filter_columns(df):
-    """Filter the columns of the DataFrame."""
-    df = df[["timestamp", "ticker", "volume", "close"]]
-    return df
-
-
 def filter_by_price(df):
     """Filter the DataFrame by price."""
     df = df[df["close"] > MINIMUM_PRICE]
@@ -55,13 +49,23 @@ def calculate_hvcs(df):
     return df[df["hvc"]]
 
 
+def calculate_gaps(df):
+    """Add gap ups/downs to the DataFrame."""
+    df["prev_close"] = df.groupby("ticker")["close"].shift(1)
+    df["gap_percent"] = (
+        (df["open"] - df["prev_close"]) / df["prev_close"] * 100
+    ).round(1)
+    # df = df.drop(columns=["prev_close"])
+    return df
+
+
 def run():
     df = pd.read_parquet("flatfiles.parquet")
-    df = filter_columns(df)
     df = filter_by_price(df)
     df = filter_five_letter_tickers(df)
     df = calculate_ma(df)
     df = calculate_hvcs(df)
+    df = calculate_gaps(df)
     df = df.sort_values(by=["timestamp", "ticker"], ascending=[False, True])
     return df
 
